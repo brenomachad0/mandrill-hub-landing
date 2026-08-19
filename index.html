@@ -335,45 +335,14 @@
             </ul>
           </div>
 
-          <div class="form-card reveal" style="--reveal-delay:120ms">
-            <h3>Solicite seu teste grátis</h3>
-            <p>Leva menos de um minuto. A gente responde rapidinho.</p>
-            <form id="testeForm" novalidate>
-              <div class="field">
-                <label for="nome">Seu nome *</label>
-                <input type="text" id="nome" name="nome" placeholder="Seu nome" required />
-              </div>
-              <div class="field">
-                <label for="produtora">Produtora *</label>
-                <input type="text" id="produtora" name="produtora" placeholder="Nome da sua produtora" required />
-              </div>
-              <div class="field">
-                <label for="cidade">Cidade / UF</label>
-                <input type="text" id="cidade" name="cidade" placeholder="Brasília / DF" />
-              </div>
-              <div class="field-row">
-                <div class="field">
-                  <label for="email">E-mail *</label>
-                  <input type="email" id="email" name="email" placeholder="voce@email.com" required />
-                </div>
-                <div class="field">
-                  <label for="whatsapp">WhatsApp *</label>
-                  <input type="tel" id="whatsapp" name="whatsapp" placeholder="(00) 00000-0000" required />
-                </div>
-              </div>
-              <div class="field">
-                <label for="equipe">Tamanho da equipe</label>
-                <select id="equipe" name="equipe">
-                  <option value="">Selecione</option>
-                  <option>Só eu</option>
-                  <option>2 a 5 pessoas</option>
-                  <option>6 a 10 pessoas</option>
-                  <option>Mais de 10</option>
-                </select>
-              </div>
-              <button type="submit" class="btn btn--primary btn--block">Solicitar teste grátis</button>
-              <p class="form-note">Seus dados ficam só com a Mandrill. Nada de spam.</p>
-            </form>
+          <div class="form-card cta__launch reveal" style="--reveal-delay:120ms">
+            <div class="cta__launch-badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></svg>
+            </div>
+            <h3>Comece agora</h3>
+            <p>Crie seu acesso ao Hub em menos de um minuto. A gente libera e te chama no WhatsApp.</p>
+            <button type="button" class="btn btn--primary btn--block" data-open-teste>Solicitar teste grátis</button>
+            <p class="form-note">Sem cartão, sem compromisso.</p>
           </div>
         </div>
       </div>
@@ -445,6 +414,70 @@
       </div>
     </div>
   </footer>
+
+  <!-- ============ MODAL — TESTE GRÁTIS ============ -->
+  <div class="modal" id="testeModal" aria-hidden="true">
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="testeModalTitle">
+      <button type="button" class="modal__close" aria-label="Fechar" data-close>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+
+      <!-- painel: formulário -->
+      <div class="modal__panel" id="testeModalForm">
+        <img class="modal__logo" src="assets/logo-main.svg" alt="Mandrill Hub" />
+        <p class="eyebrow">Teste grátis</p>
+        <h3 id="testeModalTitle">Crie seu acesso ao Hub</h3>
+        <p class="modal__sub">Leva menos de um minuto. A gente libera seu acesso e te chama no WhatsApp.</p>
+        <form id="testeForm" novalidate>
+          <div class="field">
+            <label for="nome">Seu nome *</label>
+            <input type="text" id="nome" name="nome" placeholder="Seu nome" required />
+          </div>
+          <div class="field">
+            <label for="produtora">Produtora *</label>
+            <input type="text" id="produtora" name="produtora" placeholder="Nome da sua produtora" required />
+          </div>
+          <div class="field">
+            <label for="cidade">Cidade / UF</label>
+            <input type="text" id="cidade" name="cidade" placeholder="Brasília / DF" />
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="email">E-mail *</label>
+              <input type="email" id="email" name="email" placeholder="voce@email.com" required />
+            </div>
+            <div class="field">
+              <label for="whatsapp">WhatsApp *</label>
+              <input type="tel" id="whatsapp" name="whatsapp" placeholder="(00) 00000-0000" required />
+            </div>
+          </div>
+          <div class="field">
+            <label for="equipe">Tamanho da equipe</label>
+            <select id="equipe" name="equipe">
+              <option value="">Selecione</option>
+              <option>Só eu</option>
+              <option>2 a 5 pessoas</option>
+              <option>6 a 10 pessoas</option>
+              <option>Mais de 10</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn--primary btn--block">Solicitar teste grátis</button>
+          <p class="form-note">Seus dados ficam só com a Mandrill. Nada de spam.</p>
+        </form>
+      </div>
+
+      <!-- painel: sucesso -->
+      <div class="modal__panel modal__success" id="testeModalSuccess" hidden>
+        <div class="modal__check" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </div>
+        <h3>Tudo certo! 🌿</h3>
+        <p class="modal__sub">Seu teste grátis foi solicitado. A gente te chama no WhatsApp pra liberar o seu acesso ao Hub.</p>
+        <button type="button" class="btn btn--primary btn--block" data-close>Fechar</button>
+      </div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
   <script src="hero-bg.js"></script>

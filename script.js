@@ -243,89 +243,156 @@
   })();
 
   /* -------------------------------------------------------------
-     9. Formulário — envio pro Google Sheets (via Apps Script)
+     9. Modal "Teste grátis" + envio pro Google Sheets
      ------------------------------------------------------------- */
-  // URL do Web App do Google Apps Script (deploy "Qualquer pessoa").
   const LEAD_ENDPOINT = "https://script.google.com/macros/s/AKfycbxBiPiO04n4s4pYn9t0ffb8wslvUnWkvpg-uMI8OZRe8IOY77bKjM1Ep38DkdTgGG-ZVA/exec";
   const EMAIL_FALLBACK = "suporte@mandrill.com.br";
 
+  const modal = document.getElementById("testeModal");
   const form = document.getElementById("testeForm");
-  if (form) {
-    // área de mensagem (criada via JS, sem depender do CSS)
-    const msg = document.createElement("p");
-    msg.id = "formMsg";
-    msg.setAttribute("role", "status");
-    msg.style.cssText =
-      "margin-top:14px;font-size:.92rem;font-weight:500;border-radius:10px;display:none;line-height:1.45;";
-    form.appendChild(msg);
 
-    function showMsg(text, ok) {
-      msg.textContent = text;
-      msg.style.display = "block";
-      msg.style.padding = "12px 14px";
-      if (ok) {
-        msg.style.background = "rgba(35,69,51,.18)";
-        msg.style.border = "1px solid #2f5a44";
-        msg.style.color = "#8fd3a8";
-      } else {
+  if (modal) {
+    const panelForm = document.getElementById("testeModalForm");
+    const panelOk = document.getElementById("testeModalSuccess");
+    let lastFocus = null;
+
+    function showPanel(which) {
+      const ok = which === "success";
+      panelForm.hidden = ok;
+      panelOk.hidden = !ok;
+    }
+
+    function focusables() {
+      return Array.prototype.filter.call(
+        modal.querySelectorAll(
+          'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        ),
+        function (el) {
+          return el.offsetParent !== null;
+        }
+      );
+    }
+
+    function onKey(e) {
+      if (e.key === "Escape") {
+        closeModal();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const f = focusables();
+      if (!f.length) return;
+      const first = f[0],
+        last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+
+    function openModal() {
+      lastFocus = document.activeElement;
+      showPanel("form");
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+      document.addEventListener("keydown", onKey);
+      const first = modal.querySelector("input, select");
+      if (first) window.setTimeout(function () { first.focus(); }, 80);
+    }
+
+    function closeModal() {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKey);
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    // gatilhos: qualquer link p/ #teste e botões com data-open-teste
+    document
+      .querySelectorAll('a[href="#teste"], [data-open-teste]')
+      .forEach(function (t) {
+        t.addEventListener("click", function (e) {
+          e.preventDefault();
+          openModal();
+        });
+      });
+
+    // fechar: X, clique no backdrop e botão "Fechar"
+    modal.querySelectorAll("[data-close]").forEach(function (b) {
+      b.addEventListener("click", closeModal);
+    });
+
+    /* ---- envio do formulário ---- */
+    if (form) {
+      const msg = document.createElement("p");
+      msg.id = "formMsg";
+      msg.setAttribute("role", "status");
+      msg.style.cssText =
+        "margin-top:14px;font-size:.92rem;font-weight:500;border-radius:10px;display:none;line-height:1.45;";
+      form.appendChild(msg);
+
+      function showErr(text) {
+        msg.textContent = text;
+        msg.style.display = "block";
+        msg.style.padding = "12px 14px";
         msg.style.background = "rgba(200,60,20,.14)";
         msg.style.border = "1px solid #c8501e";
         msg.style.color = "#f0a68a";
       }
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        const btn = form.querySelector('button[type="submit"]');
+        const original = btn.textContent;
+        const data = {
+          nome: form.nome.value.trim(),
+          produtora: form.produtora.value.trim(),
+          cidade: form.cidade.value.trim(),
+          email: form.email.value.trim(),
+          whatsapp: form.whatsapp.value.trim(),
+          tamanho: form.equipe.value, // "equipe" no form -> "tamanho" na planilha
+          mensagem: "",
+          origem: "landing-hub",
+          data_hora: new Date().toISOString(),
+        };
+
+        btn.disabled = true;
+        btn.style.opacity = "0.85";
+        btn.textContent = "Enviando...";
+        msg.style.display = "none";
+
+        fetch(LEAD_ENDPOINT, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(data),
+        })
+          .then(function () {
+            // no-cors não deixa ler a resposta; sucesso de rede = ok.
+            form.reset();
+            showPanel("success"); // troca pro painel "conta criada"
+          })
+          .catch(function () {
+            showErr(
+              "Deu um problema no envio. Tenta de novo ou chama a gente em " +
+                EMAIL_FALLBACK + "."
+            );
+          })
+          .finally(function () {
+            btn.disabled = false;
+            btn.style.opacity = "";
+            btn.textContent = original;
+          });
+      });
     }
-
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-      }
-
-      const btn = form.querySelector('button[type="submit"]');
-      const original = btn.textContent;
-
-      const data = {
-        nome: form.nome.value.trim(),
-        produtora: form.produtora.value.trim(),
-        cidade: form.cidade.value.trim(),
-        email: form.email.value.trim(),
-        whatsapp: form.whatsapp.value.trim(),
-        tamanho: form.equipe.value, // "equipe" no form -> "tamanho" na planilha
-        mensagem: "",
-        origem: "landing-hub",
-        data_hora: new Date().toISOString(),
-      };
-
-      btn.disabled = true;
-      btn.style.opacity = "0.85";
-      btn.textContent = "Enviando...";
-
-      fetch(LEAD_ENDPOINT, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(data),
-      })
-        .then(function () {
-          // no-cors não deixa ler a resposta; sucesso de rede = ok.
-          form.reset();
-          showMsg(
-            "Teste grátis solicitado! 🌿 A gente te chama no WhatsApp pra liberar seu acesso.",
-            true
-          );
-        })
-        .catch(function () {
-          showMsg(
-            "Deu um problema no envio. Tenta de novo ou chama a gente em " +
-              EMAIL_FALLBACK + ".",
-            false
-          );
-        })
-        .finally(function () {
-          btn.disabled = false;
-          btn.style.opacity = "";
-          btn.textContent = original;
-        });
-    });
   }
 })();

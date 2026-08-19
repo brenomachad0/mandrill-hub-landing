@@ -965,3 +965,103 @@ h1, h2, h3 {
   .url-caret { animation: none; display: none; }
   * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
 }
+
+/* ==========================================================================
+   Modal — Teste Grátis (cadastro)
+   ========================================================================== */
+.cta__launch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.cta__launch-badge {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  background: var(--brand-14);
+  color: var(--brand-text);
+  margin-bottom: 18px;
+}
+.cta__launch-badge svg { width: 26px; height: 26px; }
+.cta__launch h3 { font-size: 24px; margin-bottom: 8px; }
+.cta__launch > p { font-size: 15px; color: var(--text-3); margin: 0 0 22px; max-width: 32ch; }
+.cta__launch .btn { max-width: 340px; }
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal.is-open { display: flex; }
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 6, 11, 0.74);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  animation: mh-modal-fade 0.28s ease;
+}
+.modal__dialog {
+  position: relative;
+  width: 100%;
+  max-width: 468px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 40px 90px -25px rgba(0, 0, 0, 0.7);
+  padding: 34px 30px;
+  animation: mh-modal-pop 0.34s var(--ease);
+}
+.modal__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.modal__close:hover { background: var(--surface-3); color: var(--text-1); border-color: var(--text-3); }
+.modal__close svg { width: 18px; height: 18px; }
+.modal__logo { height: 26px; width: auto; margin-bottom: 18px; }
+.modal__panel .eyebrow { margin-bottom: 6px; }
+.modal__panel h3 { font-family: var(--font-head); font-size: 23px; line-height: 1.15; margin-bottom: 6px; }
+.modal__sub { color: var(--text-3); font-size: 15px; margin-bottom: 22px; }
+.modal__success { text-align: center; padding: 8px 0 4px; }
+.modal__check {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  margin: 4px auto 18px;
+  background: var(--brand-14);
+  color: var(--brand-text);
+  animation: mh-check-pop 0.4s var(--ease) 0.05s both;
+}
+.modal__check svg { width: 30px; height: 30px; }
+
+@keyframes mh-modal-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes mh-modal-pop { from { opacity: 0; transform: translateY(14px) scale(0.975); } to { opacity: 1; transform: none; } }
+@keyframes mh-check-pop { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: none; } }
+
+@media (max-width: 520px) {
+  .modal { padding: 12px; }
+  .modal__dialog { padding: 26px 20px; }
+}
