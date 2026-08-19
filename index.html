@@ -1,615 +1,452 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="no-js">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="robots" content="noindex" />
-<title>Mandrill Hub — gestão feita pra produtora de audiovisual</title>
-<meta name="description" content="CRM, ERP e produção num sistema só, feito pra produtora de audiovisual. Saia da planilha e ganhe processo de gente grande." />
-<meta property="og:title" content="Mandrill Hub" />
-<meta property="og:description" content="A gestão da sua produtora de audiovisual num sistema só." />
-<meta property="og:type" content="website" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-<style>
-  :root{
-    --verde-1:#171E19;          /* fundo principal */
-    --verde-2:#234533;          /* verde secundário */
-    --areia-1:#F0D2AA;
-    --areia-2:#F9EAD9;
-    --laranja:#FE6A0F;
-    --laranja-2:#FF8A26;
-
-    --bg:#141A15;               /* chão da página */
-    --bg-alt:#1A221C;           /* seções alternadas */
-    --panel:#1F2A23;            /* cards/painéis */
-    --panel-2:#243026;          /* card hover / destaque */
-    --ink:#F9EAD9;              /* texto principal (areia) */
-    --ink-soft:rgba(249,234,217,.72);
-    --ink-faint:rgba(249,234,217,.5);
-    --line:rgba(240,210,170,.14);
-    --line-strong:rgba(240,210,170,.24);
-
-    --radius:16px;
-    --maxw:1120px;
-    --serif:'Fraunces', Georgia, serif;
-    --sans:'Inter', system-ui, -apple-system, sans-serif;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-  a{color:inherit;text-decoration:none}
-  img{max-width:100%;display:block}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
-  :focus-visible{outline:2px solid var(--laranja);outline-offset:3px;border-radius:4px}
-
-  h1,h2,h3,h4{letter-spacing:-.02em;line-height:1.1;font-weight:700;text-wrap:balance}
-  h1{font-family:var(--serif);font-weight:600;letter-spacing:-.015em;font-size:clamp(2.4rem,5.2vw,3.7rem);line-height:1.06}
-  h2{font-size:clamp(1.8rem,3.6vw,2.6rem)}
-  h3{font-size:1.15rem}
-  p{color:var(--ink-soft)}
-
-  .eyebrow{font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:.74rem;color:var(--laranja-2)}
-  .lead{font-size:clamp(1.05rem,1.5vw,1.2rem);color:var(--ink-soft);max-width:56ch}
-
-  .btn{display:inline-flex;align-items:center;gap:9px;font-weight:600;font-size:.98rem;padding:13px 24px;border-radius:100px;cursor:pointer;border:1.5px solid transparent;transition:.2s}
-  .btn svg{width:17px;height:17px}
-  .btn-primary{background:var(--laranja);color:#1a0d00}
-  .btn-primary:hover{background:var(--laranja-2);transform:translateY(-1px)}
-  .btn-outline{border-color:var(--line-strong);color:var(--ink)}
-  .btn-outline:hover{border-color:var(--areia-1);background:rgba(240,210,170,.07)}
-
-  /* ---------- NAV ---------- */
-  header.nav{position:sticky;top:0;z-index:50;background:rgba(20,26,21,.8);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px}
-  .logo{display:flex;align-items:center;gap:9px;font-weight:800}
-  .logo .word{font-size:1.25rem;letter-spacing:.04em;color:var(--areia-2)}
-  .logo .word b{color:var(--laranja)}
-  .logo .tag{font-size:.58rem;font-weight:800;text-transform:uppercase;letter-spacing:.14em;background:var(--laranja);color:#1a0d00;padding:3px 7px;border-radius:5px}
-  .nav-links{display:flex;gap:28px}
-  .nav-links a{font-size:.93rem;font-weight:500;color:var(--ink-soft)}
-  .nav-links a:hover{color:var(--areia-1)}
-  @media(max-width:860px){.nav-links{display:none}}
-
-  /* ---------- HERO ---------- */
-  .hero{position:relative;padding:clamp(56px,8vw,96px) 0 clamp(40px,5vw,64px);text-align:center;overflow:hidden}
-  .hero::before{content:"";position:absolute;top:-30%;left:50%;transform:translateX(-50%);width:900px;height:600px;background:radial-gradient(ellipse at center,rgba(35,69,51,.55),transparent 62%);pointer-events:none;z-index:0}
-  .hero .wrap{position:relative;z-index:1}
-  .hero .eyebrow{display:block;margin-bottom:20px}
-  .hero h1{max-width:16ch;margin:0 auto}
-  .hero h1 em{font-style:normal;color:var(--laranja-2)}
-  .hero .lead{margin:22px auto 0;text-align:center}
-  .hero-actions{display:flex;gap:12px;justify-content:center;margin-top:32px;flex-wrap:wrap}
-  .hero-trust{margin-top:22px;font-size:.88rem;color:var(--ink-faint)}
-
-  /* product mock — dark app frame */
-  .shot{max-width:920px;margin:56px auto 0;border-radius:20px;border:1px solid var(--line-strong);background:var(--panel);box-shadow:0 40px 80px -40px rgba(0,0,0,.7);overflow:hidden}
-  .shot-bar{display:flex;align-items:center;gap:7px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--bg-alt)}
-  .shot-bar i{width:10px;height:10px;border-radius:50%;background:rgba(240,210,170,.22)}
-  .shot-bar i:first-child{background:var(--laranja)}
-  .shot-bar .url{margin-left:10px;font-size:.76rem;color:var(--ink-faint);font-weight:500}
-  .shot-body{display:grid;grid-template-columns:190px 1fr;min-height:340px;text-align:left}
-  @media(max-width:640px){.shot-body{grid-template-columns:1fr}.shot-side{display:none}}
-  .shot-side{border-right:1px solid var(--line);padding:18px 14px;background:var(--bg-alt)}
-  .shot-side .si{display:flex;align-items:center;gap:9px;font-size:.82rem;color:var(--ink-soft);padding:9px 10px;border-radius:8px;margin-bottom:3px}
-  .shot-side .si.on{background:var(--laranja);color:#1a0d00;font-weight:600}
-  .shot-side .si span{width:14px;height:14px;border-radius:4px;background:currentColor;opacity:.45}
-  .shot-main{padding:22px}
-  .shot-main .mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-  .shot-main .mh h4{font-size:1rem;color:var(--areia-2)}
-  .shot-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
-  .kpi{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--bg-alt)}
-  .kpi .k{font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-faint);font-weight:700}
-  .kpi .v{font-family:var(--serif);font-size:1.4rem;font-weight:600;margin-top:3px;color:var(--areia-2)}
-  .kpi .v.o{color:var(--laranja-2)}
-  .shot-list{border:1px solid var(--line);border-radius:12px;overflow:hidden}
-  .shot-list .lr{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;font-size:.85rem;border-bottom:1px solid var(--line)}
-  .shot-list .lr:last-child{border-bottom:0}
-  .shot-list .lr .nm{font-weight:500;color:var(--ink)}
-  .pill{font-size:.68rem;font-weight:700;padding:3px 9px;border-radius:100px}
-  .pill.g{background:rgba(120,190,150,.16);color:#8fd3a8}
-  .pill.o{background:rgba(254,106,15,.18);color:var(--laranja-2)}
-  .pill.n{background:rgba(240,210,170,.12);color:var(--ink-soft)}
-
-  /* ---------- STRIP ---------- */
-  .strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-alt)}
-  .strip .wrap{display:flex;align-items:center;justify-content:center;gap:14px 46px;padding:22px 24px;flex-wrap:wrap;text-align:center}
-  .strip .t{font-size:.82rem;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-faint);font-weight:700}
-  .strip .s{font-weight:600;color:var(--ink);font-size:.95rem}
-  .strip .s b{color:var(--laranja-2)}
-
-  /* ---------- SECTIONS ---------- */
-  .sec{padding:clamp(60px,8vw,100px) 0}
-  .sec-alt{background:var(--bg-alt)}
-  .sec-head{max-width:640px;margin:0 auto 56px;text-align:center}
-  .sec-head h2{margin-top:14px}
-  .sec-head p{margin-top:16px;font-size:1.08rem}
-
-  /* problem — 3 clean cards */
-  .cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-  @media(max-width:760px){.cols3{grid-template-columns:1fr}}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
-  .card .ic{width:40px;height:40px;border-radius:10px;background:rgba(254,106,15,.14);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
-  .card .ic svg{width:20px;height:20px;stroke:var(--laranja-2)}
-  .card h3{margin-bottom:8px;color:var(--areia-2)}
-  .card p{font-size:.95rem}
-
-  /* feature rows — alternating */
-  .feat{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;margin-bottom:clamp(56px,7vw,92px)}
-  .feat:last-child{margin-bottom:0}
-  .feat.flip .feat-media{order:2}
-  @media(max-width:820px){.feat{grid-template-columns:1fr;gap:28px}.feat.flip .feat-media{order:0}}
-  .feat .label{font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:.72rem;color:var(--laranja-2)}
-  .feat h3{font-size:clamp(1.5rem,2.6vw,2rem);letter-spacing:-.02em;margin:12px 0 14px;line-height:1.15;color:var(--areia-2)}
-  .feat p{font-size:1.05rem}
-  .feat ul{list-style:none;margin-top:20px;display:flex;flex-direction:column;gap:12px}
-  .feat li{display:flex;gap:11px;align-items:flex-start;font-size:.98rem;color:var(--ink-soft)}
-  .feat li svg{width:19px;height:19px;flex:none;margin-top:3px;stroke:var(--laranja)}
-  .feat-media{border:1px solid var(--line);border-radius:18px;background:var(--panel);padding:24px;box-shadow:0 30px 60px -40px rgba(0,0,0,.6)}
-  .sec-alt .card,.sec-alt .feat-media{background:var(--panel)}
-
-  /* mini mock inside feature media */
-  .mm-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:.88rem;color:var(--ink)}
-  .mm-row:last-child{border-bottom:0}
-  .mm-row b{color:var(--areia-2)}
-  .mm-bar{height:8px;border-radius:100px;background:rgba(240,210,170,.14)}
-  .mm-bar i{display:block;height:100%;border-radius:100px;background:var(--laranja)}
-  .mm-title{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-faint);font-weight:700;margin-bottom:14px}
-
-  /* "tudo num lugar" grid */
-  .grid6{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  @media(max-width:760px){.grid6{grid-template-columns:1fr 1fr}}
-  @media(max-width:460px){.grid6{grid-template-columns:1fr}}
-  .mini{display:flex;gap:13px;align-items:flex-start;padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
-  .mini svg{width:22px;height:22px;flex:none;stroke:var(--laranja-2);margin-top:2px}
-  .mini h4{font-size:.98rem;margin-bottom:3px;color:var(--areia-2)}
-  .mini p{font-size:.86rem}
-
-  /* pra quem — chips */
-  .chips{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;max-width:760px;margin:0 auto}
-  .chip{border:1px solid var(--line-strong);background:var(--panel);border-radius:100px;padding:11px 20px;font-weight:600;font-size:.95rem;color:var(--ink)}
-
-  /* case */
-  .case{display:grid;grid-template-columns:.85fr 1.15fr;gap:48px;align-items:center}
-  @media(max-width:820px){.case{grid-template-columns:1fr;gap:30px}}
-  .case-num{font-family:var(--serif);font-size:clamp(3.4rem,8vw,5rem);font-weight:600;color:var(--areia-1);line-height:1}
-  .case-num em{color:var(--laranja-2);font-style:normal}
-  .case-tags{display:flex;gap:22px;margin-top:22px;flex-wrap:wrap}
-  .case-tags .n{font-weight:700;font-size:1.05rem;color:var(--areia-2)}
-  .case-tags .t{font-size:.84rem;color:var(--ink-faint)}
-  .quote{font-family:var(--serif);font-weight:500;font-size:clamp(1.3rem,2.4vw,1.7rem);line-height:1.35;color:var(--ink)}
-  .quote b{color:var(--laranja-2);font-weight:600}
-
-  /* ---------- CTA ---------- */
-  .cta{background:var(--verde-2)}
-  .cta .eyebrow{color:var(--laranja-2)}
-  .cta-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start}
-  @media(max-width:860px){.cta-grid{grid-template-columns:1fr;gap:34px}}
-  .cta-benefits{list-style:none;margin-top:26px;display:flex;flex-direction:column;gap:13px}
-  .cta-benefits li{display:flex;gap:11px;align-items:flex-start;font-size:1rem;color:var(--ink-soft)}
-  .cta-benefits li svg{width:19px;height:19px;flex:none;margin-top:3px;stroke:var(--laranja-2)}
-
-  /* form — cartão claro pra legibilidade e contraste */
-  form{background:var(--areia-2);border-radius:20px;padding:30px;color:var(--verde-1)}
-  form h3{color:var(--verde-1);margin-bottom:5px;font-size:1.2rem}
-  form .fsub{color:rgba(23,30,25,.55);font-size:.9rem;margin-bottom:20px}
-  .field{margin-bottom:15px}
-  .field label{display:block;font-size:.8rem;font-weight:600;color:rgba(23,30,25,.72);margin-bottom:6px}
-  .field label .req{color:var(--laranja)}
-  .field input,.field select,.field textarea{width:100%;font-family:var(--sans);font-size:.96rem;color:var(--verde-1);background:#fff;border:1px solid rgba(23,30,25,.16);border-radius:10px;padding:12px 14px;transition:.15s}
-  .field textarea{resize:vertical;min-height:76px}
-  .field input::placeholder,.field textarea::placeholder{color:rgba(23,30,25,.34)}
-  .field input:focus,.field select:focus,.field textarea:focus{outline:0;border-color:var(--laranja);box-shadow:0 0 0 3px rgba(254,106,15,.16)}
-  .field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23171E19' stroke-width='3'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
-  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  @media(max-width:460px){.row2{grid-template-columns:1fr}}
-  form .btn-primary{width:100%;justify-content:center;margin-top:6px}
-  .form-note{font-size:.76rem;color:rgba(23,30,25,.5);margin-top:12px;text-align:center}
-  .form-msg{display:none;padding:14px;border-radius:10px;margin-top:14px;font-size:.92rem;font-weight:500}
-  .form-msg.ok{display:block;background:rgba(35,69,51,.12);border:1px solid var(--verde-2);color:var(--verde-2)}
-  .form-msg.err{display:block;background:rgba(200,60,20,.1);border:1px solid #c8501e;color:#a53d13}
-
-  /* FAQ */
-  .faq{max-width:760px;margin:0 auto}
-  .qa{border-bottom:1px solid var(--line)}
-  .qa summary{list-style:none;cursor:pointer;padding:20px 2px;display:flex;justify-content:space-between;align-items:center;gap:18px;font-weight:600;font-size:1.05rem;color:var(--areia-2)}
-  .qa summary::-webkit-details-marker{display:none}
-  .qa .plus{width:22px;height:22px;flex:none;position:relative}
-  .qa .plus::before,.qa .plus::after{content:"";position:absolute;background:var(--laranja);border-radius:2px;transition:.2s}
-  .qa .plus::before{top:10px;left:3px;right:3px;height:2px}
-  .qa .plus::after{left:10px;top:3px;bottom:3px;width:2px}
-  .qa[open] .plus::after{transform:rotate(90deg);opacity:0}
-  .qa p{padding:0 2px 22px;font-size:.98rem;max-width:66ch}
-
-  /* footer */
-  footer{background:#10150F;color:var(--ink-soft);padding:56px 0 30px;border-top:1px solid var(--line)}
-  .foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:38px;margin-bottom:38px}
-  @media(max-width:700px){.foot-grid{grid-template-columns:1fr;gap:26px}}
-  .foot-grid h5{font-size:.72rem;text-transform:uppercase;letter-spacing:.13em;color:var(--laranja-2);margin-bottom:14px;font-weight:800}
-  .foot-grid a{display:block;color:var(--ink-soft);font-size:.94rem;margin-bottom:9px}
-  .foot-grid a:hover{color:var(--areia-1)}
-  .foot-grid .logo .word{color:var(--areia-2)}
-  .foot-about{font-size:.93rem;max-width:36ch;margin-top:12px;color:var(--ink-faint)}
-  .foot-bottom{display:flex;justify-content:space-between;gap:16px;padding-top:22px;border-top:1px solid var(--line);flex-wrap:wrap;font-size:.83rem;color:var(--ink-faint)}
-
-  /* reveal (à prova de falhas) */
-  .js .reveal{opacity:0;transform:translateY(18px);transition:.6s cubic-bezier(.2,.7,.2,1)}
-  .js .reveal.in{opacity:1;transform:none}
-  @media(prefers-reduced-motion:reduce){.js .reveal{opacity:1;transform:none;transition:none}}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mandrill Hub — Sistema de gestão pra produtora de vídeo</title>
+  <meta name="description" content="O Mandrill Hub junta comercial, financeiro e produção num sistema só — com o método e a rede que dão à produtora boutique a credibilidade pra atender conta de gente grande." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script>document.documentElement.className += " js";</script>
 </head>
 <body>
+  <div class="scroll-progress" id="scrollProgress"></div>
 
-<!-- NAV -->
-<header class="nav">
-  <div class="wrap nav-inner">
-    <a class="logo" href="#top"><span class="word">M<b>a</b>NDRILL</span><span class="tag">Hub</span></a>
-    <nav class="nav-links">
-      <a href="#recursos">Recursos</a>
-      <a href="#tudo">O sistema</a>
-      <a href="#paraquem">Pra quem é</a>
-      <a href="#faq">Dúvidas</a>
-    </nav>
-    <a href="#demo" class="btn btn-primary">Teste Grátis</a>
-  </div>
-</header>
-
-<!-- HERO -->
-<section class="hero" id="top">
-  <div class="wrap">
-    <span class="eyebrow reveal">Sistema de gestão pra produtora de vídeo</span>
-    <h1 class="reveal">Feche cliente grande sem virar uma <em>produtora grande</em>.</h1>
-    <p class="lead reveal">O Mandrill Hub junta comercial, financeiro e produção num sistema só — com o método e a rede que dão à produtora boutique a credibilidade pra atender conta de gente grande. Chega de operar na planilha.</p>
-    <div class="hero-actions reveal">
-      <a href="#demo" class="btn btn-primary">Teste Grátis
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  <!-- ============ HEADER ============ -->
+  <header class="header" id="header">
+    <div class="container">
+      <a href="#top" class="brand-logo" aria-label="Mandrill Hub">
+        <img src="assets/logo-main.svg" alt="Mandrill Hub" />
       </a>
-      <a href="#recursos" class="btn btn-outline">Ver os recursos</a>
-    </div>
-    <p class="hero-trust reveal">É o sistema que roda a Mandrill Filmes há 14 anos — de Banco do Brasil a Petrobras.</p>
-
-    <!-- product shot -->
-    <div class="shot reveal" aria-hidden="true">
-      <div class="shot-bar"><i></i><i></i><i></i><span class="url">app.mandrill.com.br</span></div>
-      <div class="shot-body">
-        <div class="shot-side">
-          <div class="si on"><span></span>Painel</div>
-          <div class="si"><span></span>Comercial</div>
-          <div class="si"><span></span>Orçamentos</div>
-          <div class="si"><span></span>Financeiro</div>
-          <div class="si"><span></span>Produção</div>
-          <div class="si"><span></span>Fornecedores</div>
-        </div>
-        <div class="shot-main">
-          <div class="mh"><h4>Painel da produtora</h4><span class="pill n">Agosto</span></div>
-          <div class="shot-kpis">
-            <div class="kpi"><div class="k">A receber</div><div class="v o">R$ 148k</div></div>
-            <div class="kpi"><div class="k">Projetos ativos</div><div class="v">07</div></div>
-            <div class="kpi"><div class="k">Margem média</div><div class="v">32%</div></div>
-          </div>
-          <div class="shot-list">
-            <div class="lr"><span class="nm">Filme institucional — Estatal</span><span class="pill g">Em produção</span></div>
-            <div class="lr"><span class="nm">Campanha regional — Agência</span><span class="pill o">Aguardando aprovação</span></div>
-            <div class="lr"><span class="nm">Série de conteúdo — Direto</span><span class="pill g">Em produção</span></div>
-            <div class="lr"><span class="nm">Documentário — Edital</span><span class="pill n">Orçamento enviado</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- STRIP -->
-<section class="strip">
-  <div class="wrap">
-    <span class="t">Não é teoria. É operação real.</span>
-    <span class="s"><b>14 anos</b> de produtora rodando no sistema</span>
-    <span class="s"><b>3 em 1</b> — comercial, financeiro e produção</span>
-    <span class="s"><b>Zero</b> planilha avulsa</span>
-  </div>
-</section>
-
-<!-- PROBLEMA -->
-<section class="sec" id="problema">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow">O que trava a produtora boutique</span>
-      <h2>Você sabe filmar. O que trava não é a câmera.</h2>
-      <p>A produtora pequena e boa perde a conta grande por processo, credibilidade e caixa — não por talento.</p>
-    </div>
-    <div class="cols3">
-      <div class="card reveal">
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
-        <h3>Operação na planilha</h3>
-        <p>Orçamento numa aba, contrato no Word, financeiro na cabeça e produção no grupo do WhatsApp. Uma hora fura.</p>
-      </div>
-      <div class="card reveal">
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2l3 6 6 1-4.5 4.5L18 20l-6-3-6 3 1.5-6.5L3 9l6-1z"/></svg></div>
-        <h3>Sem selo, sem conta grande</h3>
-        <p>Estatal, banco e grande corporação pedem método, compliance e auditoria de processo. Sem isso, a proposta boa nem passa da triagem.</p>
-      </div>
-      <div class="card reveal">
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
-        <h3>O caixa que não fecha</h3>
-        <p>Projeto aprovado, mas o dinheiro só entra em 30 a 60 dias — e banco tradicional não entende como o audiovisual funciona.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- RECURSOS (feature rows) -->
-<section class="sec sec-alt" id="recursos">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow">Recursos</span>
-      <h2>Um sistema pensado pro fluxo de quem faz vídeo.</h2>
-    </div>
-
-    <!-- 1 -->
-    <div class="feat reveal">
-      <div>
-        <span class="label">Comercial · CRM</span>
-        <h3>Do primeiro contato ao orçamento fechado.</h3>
-        <p>Cliente, agência e conta direta num lugar só. Pipeline, proposta e histórico de cada projeto sem perder nada no caminho.</p>
-        <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Pipeline comercial e oportunidades</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Orçamento com timbrado da sua marca</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Histórico completo por conta</li>
-        </ul>
-      </div>
-      <div class="feat-media">
-        <div class="mm-title">Pipeline comercial</div>
-        <div class="mm-row"><span>Campanha regional</span><span class="pill o">Proposta</span></div>
-        <div class="mm-row"><span>Filme institucional</span><span class="pill g">Fechado</span></div>
-        <div class="mm-row"><span>Série de conteúdo</span><span class="pill n">Contato</span></div>
-        <div class="mm-row"><span>Documentário</span><span class="pill g">Fechado</span></div>
-      </div>
-    </div>
-
-    <!-- 2 -->
-    <div class="feat flip reveal">
-      <div>
-        <span class="label">Financeiro · ERP</span>
-        <h3>Financeiro de produtora, não de padaria.</h3>
-        <p>A pagar, a receber e fluxo de caixa por projeto. Apuração por centro de custo e integração fiscal — com antecipação de recebível quando o caixa aperta.</p>
-        <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Fluxo de caixa por projeto</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Apuração por centro de custo</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Antecipação de recebível integrada</li>
-        </ul>
-      </div>
-      <div class="feat-media">
-        <div class="mm-title">Fluxo de caixa · Projeto</div>
-        <div class="mm-row"><span>A receber</span><b style="color:var(--laranja-2)">R$ 148.000</b></div>
-        <div class="mm-row"><span>A pagar</span><b>R$ 92.400</b></div>
-        <div style="margin:16px 0 6px" class="mm-title">Margem do projeto</div>
-        <div class="mm-bar"><i style="width:62%"></i></div>
-      </div>
-    </div>
-
-    <!-- 3 -->
-    <div class="feat reveal">
-      <div>
-        <span class="label">Produção · Operação</span>
-        <h3>Direção e produção no mesmo trilho.</h3>
-        <p>Ordem de produção, cronograma e alocação de equipe. Acompanhe status em tempo real, com entrega, revisão e auditoria de processo embutidas.</p>
-        <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Cronograma e ordem de produção</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Rede de fornecedores certificados</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Entrega, revisão e auditoria</li>
-        </ul>
-      </div>
-      <div class="feat-media">
-        <div class="mm-title">Status de produção</div>
-        <div class="mm-row"><span>Pré-produção</span><span class="pill g">Concluído</span></div>
-        <div class="mm-row"><span>Diária de captação</span><span class="pill o">Em andamento</span></div>
-        <div class="mm-row"><span>Edição</span><span class="pill n">Agendado</span></div>
-        <div class="mm-row"><span>Entrega final</span><span class="pill n">2 dias</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TUDO NUM LUGAR -->
-<section class="sec" id="tudo">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow">Um ecossistema, não só um software</span>
-      <h2>Sistema, método, rede e capital na mesma casa.</h2>
-      <p>Ferramenta genérica dá conta de um pedaço. O Hub foi desenhado pro fluxo inteiro de uma produtora — e ainda traz o selo de método, a rede de fornecedores e o capital pra girar.</p>
-    </div>
-    <div class="grid6">
-      <div class="mini reveal"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100 8 4 4 0 000-8z"/></svg><div><h4>CRM comercial</h4><p>Clientes, agências e propostas.</p></div></div>
-      <div class="mini reveal"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg><div><h4>Financeiro</h4><p>A pagar, a receber, fluxo de caixa.</p></div></div>
-      <div class="mini reveal"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg><div><h4>Produção</h4><p>Cronograma, ordem do dia e entrega.</p></div></div>
-      <div class="mini reveal"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M9 7a4 4 0 100 8 4 4 0 000-8zM22 21v-2a4 4 0 00-3-3.87"/></svg><div><h4>Fornecedores</h4><p>Rede certificada, contratada pelo app.</p></div></div>
-      <div class="mini reveal"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M23 6l-9.5 9.5-5-5L1 18M17 6h6v6"/></svg><div><h4>Capital pra girar</h4><p>Antecipação de recebível feita pro setor.</p></div></div>
-      <div class="mini reveal"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><div><h4>Certificação</h4><p>O selo que dá segurança ao cliente.</p></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- PRA QUEM -->
-<section class="sec sec-alt" id="paraquem">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow">Pra quem é</span>
-      <h2>Feito pra produtora boutique que quer jogar em cima.</h2>
-      <p>Produtora de 1 a 5 pessoas, quase sempre fora do eixo SP–RJ. O dono sabe filmar e entrega bem — mas trava em processo, credibilidade e caixa na hora de mirar contas maiores.</p>
-    </div>
-    <div class="chips reveal">
-      <span class="chip">Vídeo publicitário</span>
-      <span class="chip">Filme institucional</span>
-      <span class="chip">Conteúdo & social</span>
-      <span class="chip">Documentário</span>
-      <span class="chip">Produtora regional</span>
-      <span class="chip">Estúdio de animação</span>
-      <span class="chip">Audiovisual pra editais</span>
-    </div>
-  </div>
-</section>
-
-<!-- CASE -->
-<section class="sec" id="case">
-  <div class="wrap case">
-    <div class="reveal">
-      <span class="eyebrow">A prova viva</span>
-      <div class="case-num" style="margin-top:14px"><em>14</em> anos</div>
-      <div class="case-tags">
-        <div><div class="n">Brasília</div><div class="t">operação de âmbito nacional</div></div>
-        <div><div class="n">Grande conta</div><div class="t">estatais, bancos e ministérios</div></div>
-      </div>
-    </div>
-    <div class="reveal">
-      <p class="quote">O Hub não nasceu no PowerPoint. Foi construído e validado dentro da <b>Mandrill Filmes</b> — produtora que há 14 anos entrega pra clientes como Banco do Brasil, Caixa, BNDES, Petrobras e Ministério da Saúde.</p>
-      <p class="lead" style="margin-top:20px">Quando você entra no Hub, não aposta numa promessa: usa a mesma máquina que já roda uma produtora de grande conta — do briefing à licitação, da entrega à auditoria.</p>
-    </div>
-  </div>
-</section>
-
-<!-- CTA + FORM -->
-<section class="sec cta" id="demo">
-  <div class="wrap cta-grid">
-    <div class="reveal">
-      <span class="eyebrow">Teste grátis</span>
-      <h2 style="margin-top:14px">Bora colocar sua produtora no jogo grande?</h2>
-      <p class="lead">Preencha os dados e solicite seu teste grátis do Hub. A gente libera o acesso e acompanha o começo junto com você — pra realidade da sua produtora. Sem enrolação, sem promessa mágica.</p>
-      <ul class="cta-benefits">
-        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Teste acompanhado por quem opera de verdade</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Diagnóstico do que trava o crescimento</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Prioridade na fila de certificação e onboarding</li>
-      </ul>
-    </div>
-
-    <form id="leadForm" class="reveal" novalidate>
-      <h3>Solicite seu teste grátis</h3>
-      <p class="fsub">Leva menos de um minuto. A gente responde rapidinho.</p>
-      <div class="field">
-        <label for="nome">Seu nome <span class="req">*</span></label>
-        <input type="text" id="nome" name="nome" placeholder="Como te chamam" required />
-      </div>
-      <div class="row2">
-        <div class="field">
-          <label for="produtora">Produtora <span class="req">*</span></label>
-          <input type="text" id="produtora" name="produtora" placeholder="Nome da produtora" required />
-        </div>
-        <div class="field">
-          <label for="cidade">Cidade / UF</label>
-          <input type="text" id="cidade" name="cidade" placeholder="Ex.: Goiânia / GO" />
-        </div>
-      </div>
-      <div class="row2">
-        <div class="field">
-          <label for="email">E-mail <span class="req">*</span></label>
-          <input type="email" id="email" name="email" placeholder="voce@produtora.com" required />
-        </div>
-        <div class="field">
-          <label for="whatsapp">WhatsApp <span class="req">*</span></label>
-          <input type="tel" id="whatsapp" name="whatsapp" placeholder="(00) 00000-0000" required />
-        </div>
-      </div>
-      <div class="field">
-        <label for="tamanho">Tamanho da equipe</label>
-        <select id="tamanho" name="tamanho">
-          <option value="">Selecione</option>
-          <option>Só eu</option>
-          <option>2 a 5 pessoas</option>
-          <option>6 a 10 pessoas</option>
-          <option>Mais de 10</option>
-        </select>
-      </div>
-      <button type="submit" class="btn btn-primary" id="submitBtn">Solicitar teste grátis
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </button>
-      <p class="form-note">Seus dados ficam só com a Mandrill. Nada de spam.</p>
-      <div class="form-msg" id="formMsg" role="status"></div>
-    </form>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="sec sec-alt" id="faq">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow">Dúvidas rápidas</span>
-      <h2>O que costumam perguntar.</h2>
-    </div>
-    <div class="faq">
-      <details class="qa reveal"><summary>O Mandrill Hub é só mais um sistema de gestão?<span class="plus"></span></summary><p>Não. Ele junta comercial, financeiro e produção num sistema único, pensado pro fluxo de uma produtora de audiovisual — e vem com o método que certifica, a rede de fornecedores e o acesso a capital. É infraestrutura pro seu negócio, não só um software.</p></details>
-      <details class="qa reveal"><summary>Preciso ser uma produtora grande pra usar?<span class="plus"></span></summary><p>Pelo contrário. Foi desenhado pra produtora boutique, de 1 a 5 pessoas, que entrega bem mas trava em processo, credibilidade e caixa na hora de mirar contas maiores.</p></details>
-      <details class="qa reveal"><summary>Como funciona a certificação?<span class="plus"></span></summary><p>Antes de operar como produtora certificada, você passa por uma trilha que padroniza o método Mandrill. É ela que garante a qualidade e libera o selo que dá segurança ao cliente final. No teste a gente explica o caminho completo.</p></details>
-      <details class="qa reveal"><summary>Já uso outras ferramentas. Preciso trocar tudo de uma vez?<span class="plus"></span></summary><p>Não precisa virar a chave no susto. No onboarding a gente entende o seu fluxo atual e faz a migração por etapas, sem parar sua operação no meio de um projeto.</p></details>
-      <details class="qa reveal"><summary>Quanto custa?<span class="plus"></span></summary><p>O Hub funciona por licença mensal, com condição definida conforme o porte e o momento da sua produtora. Como é um ecossistema (sistema + método + rede + capital), o valor é apresentado numa conversa — solicite seu teste grátis e a gente detalha tudo.</p></details>
-      <details class="qa reveal"><summary>Já dá pra começar agora?<span class="plus"></span></summary><p>Sim, o sistema está em produção e rodando. As vagas de certificação e onboarding são acompanhadas de perto pra garantir qualidade, então quem solicita o teste antes tem prioridade na fila.</p></details>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="wrap">
-    <div class="foot-grid">
-      <div>
-        <a class="logo" href="#top"><span class="word">M<b>a</b>NDRILL</span><span class="tag">Hub</span></a>
-        <p class="foot-about">O backbone tecnológico da produção audiovisual independente brasileira. Sistema, método e ecossistema numa coisa só.</p>
-      </div>
-      <div>
-        <h5>Navegar</h5>
+      <nav class="nav" id="nav">
         <a href="#recursos">Recursos</a>
-        <a href="#tudo">O sistema</a>
-        <a href="#paraquem">Pra quem é</a>
-        <a href="#faq">Dúvidas</a>
-      </div>
-      <div>
-        <h5>Contato</h5>
-        <a href="mailto:suporte@mandrill.com.br">suporte@mandrill.com.br</a>
-        <a href="#demo">Teste grátis</a>
+        <a href="#ecossistema">O sistema</a>
+        <a href="#pra-quem">Pra quem é</a>
+        <a href="#duvidas">Dúvidas</a>
+      </nav>
+      <div class="header-right">
+        <a href="#teste" class="btn btn--primary btn--sm">Teste grátis</a>
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">
+          <span></span>
+        </button>
       </div>
     </div>
-    <div class="foot-bottom">
-      <span>© <span id="ano"></span> Mandrill · Todos os direitos reservados.</span>
-      <span>Feito no Brasil. 🌿</span>
+  </header>
+
+  <main id="top">
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="hero__glow"></div>
+      <canvas class="hero__fx" id="heroCanvas" aria-hidden="true"></canvas>
+      <div id="unicornFx" class="hero__fx" aria-hidden="true"></div>
+      <div class="container">
+        <div class="hero__inner">
+          <p class="eyebrow reveal">Sistema de gestão pra produtora de vídeo</p>
+          <h1 class="reveal" style="--reveal-delay:80ms">
+            Feche cliente grande sem virar uma <span class="accent">produtora grande.</span>
+          </h1>
+          <p class="hero__sub reveal" style="--reveal-delay:160ms">
+            O Mandrill Hub junta comercial, financeiro e produção num sistema só — com o método e a rede que dão à produtora boutique a credibilidade pra atender conta de gente grande. Chega de operar na planilha.
+          </p>
+          <div class="hero__cta reveal" style="--reveal-delay:240ms">
+            <a href="#teste" class="btn btn--primary">Teste Grátis</a>
+            <a href="#recursos" class="btn btn--secondary">Ver os recursos</a>
+          </div>
+          <p class="hero__note reveal" style="--reveal-delay:320ms">
+            É o sistema que roda a Mandrill Filmes há 14 anos — de Banco do Brasil a Petrobras.
+          </p>
+        </div>
+
+        <div class="dash-scene reveal" style="--reveal-delay:120ms">
+          <div class="dash-float">
+            <div class="hero__dashboard" id="dashboard">
+              <div class="browser-bar">
+                <span class="dot dot--r"></span>
+                <span class="dot dot--y"></span>
+                <span class="dot dot--g"></span>
+                <span class="url-pill" id="urlPill"><span class="url-text" id="urlText"></span><span class="url-caret" aria-hidden="true"></span></span>
+              </div>
+              <div class="dash-slider" id="dashSlider">
+                <div class="dash-track" id="dashTrack">
+                  <div class="dash-slide"><img src="img/screenshot/shot-1.png" alt="Painel de fluxo de caixa do Mandrill Hub" /></div>
+                  <div class="dash-slide"><img src="img/screenshot/shot-2.png" alt="Fluxo de entregas em produção" loading="lazy" /></div>
+                  <div class="dash-slide"><img src="img/screenshot/shot-3.png" alt="CRM e linha do tempo da negociação" loading="lazy" /></div>
+                  <div class="dash-slide"><img src="img/screenshot/shot-4.png" alt="Composição de orçamento do projeto" loading="lazy" /></div>
+                </div>
+                <div class="dash-dots" id="dashDots" role="tablist" aria-label="Telas do sistema"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ STATS STRIP ============ -->
+    <div class="stats-strip" aria-hidden="true">
+      <div class="marquee" id="marquee">
+        <div class="marquee__group">
+          <span class="lead">Não é teoria. É operação real.</span>
+          <span class="sep">•</span>
+          <span>14 anos de produtora rodando no sistema</span>
+          <span class="sep">•</span>
+          <span>3 em 1 — comercial, financeiro e produção</span>
+          <span class="sep">•</span>
+          <span>Zero planilha avulsa</span>
+          <span class="sep">•</span>
+        </div>
+        <div class="marquee__group">
+          <span class="lead">Não é teoria. É operação real.</span>
+          <span class="sep">•</span>
+          <span>14 anos de produtora rodando no sistema</span>
+          <span class="sep">•</span>
+          <span>3 em 1 — comercial, financeiro e produção</span>
+          <span class="sep">•</span>
+          <span>Zero planilha avulsa</span>
+          <span class="sep">•</span>
+        </div>
+      </div>
     </div>
-  </div>
-</footer>
 
-<script>
-  document.documentElement.classList.remove('no-js');
-  document.documentElement.classList.add('js');
-  document.getElementById('ano').textContent = new Date().getFullYear();
+    <!-- ============ PROBLEMA ============ -->
+    <section class="section">
+      <div class="container">
+        <div class="sec-head reveal">
+          <p class="eyebrow">O que trava a produtora boutique</p>
+          <h2>Você sabe filmar. O que trava não é a câmera.</h2>
+          <p>A produtora pequena e boa perde a conta grande por processo, credibilidade e caixa — não por talento.</p>
+        </div>
+        <div class="card-grid">
+          <article class="card reveal">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+            </div>
+            <h3>Operação na planilha</h3>
+            <p>Orçamento numa aba, contrato no Word, financeiro na cabeça e produção no grupo do WhatsApp. Uma hora fura.</p>
+          </article>
+          <article class="card reveal" style="--reveal-delay:100ms">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <h3>Sem selo, sem conta grande</h3>
+            <p>Estatal, banco e grande corporação pedem método, compliance e auditoria de processo. Sem isso, a proposta boa nem passa da triagem.</p>
+          </article>
+          <article class="card reveal" style="--reveal-delay:200ms">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3"/><path d="M16 12h5v-2h-5a1.5 1.5 0 0 0 0 3"/><path d="M3 9h13"/></svg>
+            </div>
+            <h3>O caixa que não fecha</h3>
+            <p>Projeto aprovado, mas o dinheiro só entra em 30 a 60 dias — e banco tradicional não entende como o audiovisual funciona.</p>
+          </article>
+        </div>
+      </div>
+    </section>
 
-  const io = new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.12});
-  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+    <!-- ============ RECURSOS ============ -->
+    <section class="section section--alt" id="recursos">
+      <div class="container">
+        <div class="sec-head reveal">
+          <p class="eyebrow">Recursos</p>
+          <h2>Um sistema pensado pro fluxo de quem faz vídeo.</h2>
+        </div>
 
-  // ===== CAPTURA DE LEADS → GOOGLE SHEETS =====
-  // Cole a URL do Web App do Apps Script (passo a passo no README.md).
-  const LEAD_ENDPOINT = "https://script.google.com/macros/s/AKfycbxBiPiO04n4s4pYn9t0ffb8wslvUnWkvpg-uMI8OZRe8IOY77bKjM1Ep38DkdTgGG-ZVA/exec";
-  const EMAIL_FALLBACK = "suporte@mandrill.com.br";
+        <div class="recursos-blocks">
+          <!-- Comercial -->
+          <div class="feature reveal">
+            <div class="feature__text">
+              <p class="eyebrow">Comercial · CRM</p>
+              <h3>Do primeiro contato ao orçamento fechado.</h3>
+              <p>Cliente, agência e conta direta num lugar só. Pipeline, proposta e histórico de cada projeto sem perder nada no caminho.</p>
+              <ul class="feature__list">
+                <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Pipeline comercial e oportunidades</li>
+                <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Orçamento com timbrado da sua marca</li>
+                <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Histórico completo por conta</li>
+              </ul>
+            </div>
+            <div class="feature__media">
+              <div class="mockup">
+                <div class="mockup__head">Pipeline comercial</div>
+                <div class="mockup__body">
+                  <div class="row"><span class="row__label"><span class="bullet bullet--brand"></span>Campanha regional</span><span class="row__status c-brand">Proposta</span></div>
+                  <div class="row"><span class="row__label"><span class="bullet bullet--green"></span>Filme institucional</span><span class="row__status c-green">Fechado</span></div>
+                  <div class="row"><span class="row__label"><span class="bullet bullet--blue"></span>Série de conteúdo</span><span class="row__status c-blue">Contato</span></div>
+                  <div class="row"><span class="row__label"><span class="bullet bullet--green"></span>Documentário</span><span class="row__status c-green">Fechado</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-  const form=document.getElementById('leadForm'),msg=document.getElementById('formMsg'),btn=document.getElementById('submitBtn');
-  function showMsg(t,ok){msg.textContent=t;msg.className='form-msg '+(ok?'ok':'err');}
-  form.addEventListener('submit',async(ev)=>{
-    ev.preventDefault();
-    for(const id of ['nome','produtora','email','whatsapp']){
-      const el=document.getElementById(id);
-      if(!el.value.trim()){el.focus();showMsg('Preenche o campo "'+el.previousElementSibling.textContent.replace('*','').trim()+'" pra gente conseguir te responder. 🙂',false);return;}
-    }
-    const data=Object.fromEntries(new FormData(form).entries());
-    data.origem='landing-hub';data.data_hora=new Date().toISOString();
-    btn.disabled=true;const original=btn.innerHTML;btn.textContent='Enviando...';
-    if(!LEAD_ENDPOINT){
-      const corpo=encodeURIComponent('Nome: '+data.nome+'\nProdutora: '+data.produtora+'\nCidade/UF: '+(data.cidade||'-')+'\nE-mail: '+data.email+'\nWhatsApp: '+data.whatsapp+'\nEquipe: '+(data.tamanho||'-'));
-      window.location.href='mailto:'+EMAIL_FALLBACK+'?subject='+encodeURIComponent('Teste grátis do Mandrill Hub — '+data.produtora)+'&body='+corpo;
-      showMsg('Abrimos seu app de e-mail com tudo preenchido. É só apertar enviar! ✉️',true);
-      btn.disabled=false;btn.innerHTML=original;return;
-    }
-    try{
-      await fetch(LEAD_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)});
-      form.reset();showMsg('Teste grátis solicitado! 🌿 A gente te chama no WhatsApp pra liberar seu acesso.',true);
-    }catch(err){showMsg('Deu um problema no envio. Tenta de novo ou chama a gente em '+EMAIL_FALLBACK+'.',false);}
-    finally{btn.disabled=false;btn.innerHTML=original;}
-  });
-</script>
+          <!-- Financeiro -->
+          <div class="feature reveal">
+            <div class="feature__text">
+              <p class="eyebrow">Financeiro · ERP</p>
+              <h3>Financeiro de produtora, não de padaria.</h3>
+              <p>A pagar, a receber e fluxo de caixa por projeto. Apuração por centro de custo e integração fiscal — com antecipação de recebível quando o caixa aperta.</p>
+              <ul class="feature__list">
+                <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Fluxo de caixa por projeto</li>
+                <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Apuração por centro de custo</li>
+                <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Antecipação de recebível integrada</li>
+              </ul>
+            </div>
+            <div class="feature__media">
+              <div class="mockup">
+                <div class="mockup__head">Fluxo de caixa · projeto</div>
+                <div class="fin-cards">
+                  <div class="fin-card"><span class="label">A receber</span><span class="value value--green">R$ 148.000</span></div>
+                  <div class="fin-card"><span class="label">A pagar</span><span class="value value--brand">R$ 92.400</span></div>
+                  <div class="fin-margin">
+                    <div class="fin-margin__row"><span class="lbl">Margem do projeto</span><span class="val">+ R$ 55.600</span></div>
+                    <div class="progress-track"><div class="progress-fill"></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Produção -->
+          <div class="feature reveal">
+            <div class="feature__text">
+              <p class="eyebrow">Produção · Operação</p>
+              <h3>Direção e produção no mesmo trilho.</h3>
+              <p>Ordem de produção, cronograma e alocação de equipe. Acompanhe status em tempo real, com entrega, revisão e auditoria de processo embutidas.</p>
+              <ul class="feature__list">
+                <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Cronograma e ordem de produção</li>
+                <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Rede de fornecedores certificados</li>
+                <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Entrega, revisão e auditoria</li>
+              </ul>
+            </div>
+            <div class="feature__media">
+              <div class="mockup">
+                <div class="mockup__head">Status de produção</div>
+                <div class="stat-rows">
+                  <div class="stat-row"><span class="stat-label"><span class="bullet bullet--green"></span>Pré-produção</span><span class="pill-status pill-status--green">Concluído</span></div>
+                  <div class="stat-row"><span class="stat-label"><span class="bullet bullet--brand"></span>Diária de captação</span><span class="pill-status pill-status--brand">Em andamento</span></div>
+                  <div class="stat-row"><span class="stat-label"><span class="bullet bullet--gray"></span>Edição</span><span class="pill-status pill-status--gray">Agendado</span></div>
+                  <div class="stat-row"><span class="stat-label"><span class="bullet bullet--blue"></span>Entrega final</span><span class="pill-status pill-status--blue">2 dias</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ECOSSISTEMA ============ -->
+    <section class="section" id="ecossistema">
+      <div class="container">
+        <div class="sec-head reveal">
+          <p class="eyebrow">Um ecossistema, não só um software</p>
+          <h2>Sistema, método, rede e capital na mesma casa.</h2>
+          <p>Ferramenta genérica dá conta de um pedaço. O Hub foi desenhado pro fluxo inteiro de uma produtora — e ainda traz o selo de método, a rede de fornecedores e o capital pra girar.</p>
+        </div>
+        <div class="eco-grid">
+          <article class="card eco-card reveal">
+            <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <h3>CRM comercial</h3>
+            <p>Clientes, agências e propostas.</p>
+          </article>
+          <article class="card eco-card reveal" style="--reveal-delay:80ms">
+            <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+            <h3>Financeiro</h3>
+            <p>A pagar, a receber, fluxo de caixa.</p>
+          </article>
+          <article class="card eco-card reveal" style="--reveal-delay:160ms">
+            <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 11 4.5-1.5M4 11l1.5 4.5M4 11l16-5.5M20 5.5 21.5 10M20 5.5 15.5 7"/><rect x="2" y="11" width="20" height="10" rx="2"/></svg></div>
+            <h3>Produção</h3>
+            <p>Cronograma, ordem do dia e entrega.</p>
+          </article>
+          <article class="card eco-card reveal">
+            <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3M12 12V8"/></svg></div>
+            <h3>Fornecedores</h3>
+            <p>Rede certificada, contratada pelo app.</p>
+          </article>
+          <article class="card eco-card reveal" style="--reveal-delay:80ms">
+            <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17 9 11l4 4 8-8"/><path d="M17 7h4v4"/></svg></div>
+            <h3>Capital pra girar</h3>
+            <p>Antecipação de recebível feita pro setor.</p>
+          </article>
+          <article class="card eco-card reveal" style="--reveal-delay:160ms">
+            <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 8 10 8 10s8-5 8-10V5l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg></div>
+            <h3>Certificação</h3>
+            <p>O selo que dá segurança ao cliente.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PRA QUEM É ============ -->
+    <section class="section section--alt" id="pra-quem">
+      <div class="container">
+        <div class="sec-head reveal">
+          <p class="eyebrow">Pra quem é</p>
+          <h2>Feito pra produtora boutique que quer jogar em cima.</h2>
+          <p>Produtora de 1 a 5 pessoas, quase sempre fora do eixo SP–RJ. O dono sabe filmar e entrega bem — mas trava em processo, credibilidade e caixa na hora de mirar contas maiores.</p>
+        </div>
+        <div class="pills reveal">
+          <span class="pill">Vídeo publicitário</span>
+          <span class="pill">Filme institucional</span>
+          <span class="pill">Conteúdo &amp; social</span>
+          <span class="pill">Documentário</span>
+          <span class="pill">Produtora regional</span>
+          <span class="pill">Estúdio de animação</span>
+          <span class="pill">Audiovisual pra editais</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 14 ANOS ============ -->
+    <section class="section">
+      <div class="container">
+        <div class="anos">
+          <div class="anos__left reveal">
+            <p class="eyebrow">A prova viva</p>
+            <div class="anos__num"><span class="g">14</span> anos</div>
+            <div class="anos__facts">
+              <div>
+                <div class="k">Brasília</div>
+                <div class="v">operação de âmbito nacional</div>
+              </div>
+              <div>
+                <div class="k">Grande conta</div>
+                <div class="v">estatais, bancos e ministérios</div>
+              </div>
+            </div>
+          </div>
+          <p class="anos__story reveal" style="--reveal-delay:120ms">
+            O Hub não nasceu no PowerPoint. Foi construído e validado dentro da Mandrill Filmes — produtora que há 14 anos entrega pra clientes como Banco do Brasil, Caixa, BNDES, Petrobras e Ministério da Saúde. Quando você entra no Hub, não aposta numa promessa: usa a mesma máquina que já roda uma produtora de grande conta — do briefing à licitação, da entrega à auditoria.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CTA / FORM ============ -->
+    <section class="section section--alt" id="teste">
+      <div class="container">
+        <div class="cta">
+          <div class="cta__text reveal">
+            <p class="eyebrow">Teste grátis</p>
+            <h2>Bora colocar sua produtora no jogo grande?</h2>
+            <p>Preencha os dados e solicite seu teste grátis do Hub. A gente libera o acesso e acompanha o primeiro projeto com você — na realidade da sua produtora. Sem enrolação, sem promessa mágica.</p>
+            <ul class="cta__list">
+              <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Teste acompanhado por quem opera de verdade</li>
+              <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Diagnóstico do que trava o crescimento</li>
+              <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Prioridade na fila de certificação e onboarding</li>
+            </ul>
+          </div>
+
+          <div class="form-card reveal" style="--reveal-delay:120ms">
+            <h3>Solicite seu teste grátis</h3>
+            <p>Leva menos de um minuto. A gente responde rapidinho.</p>
+            <form id="testeForm" novalidate>
+              <div class="field">
+                <label for="nome">Seu nome *</label>
+                <input type="text" id="nome" name="nome" placeholder="Seu nome" required />
+              </div>
+              <div class="field">
+                <label for="produtora">Produtora *</label>
+                <input type="text" id="produtora" name="produtora" placeholder="Nome da sua produtora" required />
+              </div>
+              <div class="field">
+                <label for="cidade">Cidade / UF</label>
+                <input type="text" id="cidade" name="cidade" placeholder="Brasília / DF" />
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="email">E-mail *</label>
+                  <input type="email" id="email" name="email" placeholder="voce@email.com" required />
+                </div>
+                <div class="field">
+                  <label for="whatsapp">WhatsApp *</label>
+                  <input type="tel" id="whatsapp" name="whatsapp" placeholder="(00) 00000-0000" required />
+                </div>
+              </div>
+              <div class="field">
+                <label for="equipe">Tamanho da equipe</label>
+                <select id="equipe" name="equipe">
+                  <option value="">Selecione</option>
+                  <option>Só eu</option>
+                  <option>2 a 5 pessoas</option>
+                  <option>6 a 10 pessoas</option>
+                  <option>Mais de 10</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn--primary btn--block">Solicitar teste grátis</button>
+              <p class="form-note">Seus dados ficam só com a Mandrill. Nada de spam.</p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="section" id="duvidas">
+      <div class="container">
+        <div class="sec-head reveal">
+          <p class="eyebrow">Dúvidas rápidas</p>
+          <h2>O que costumam perguntar.</h2>
+        </div>
+        <div class="accordion" id="accordion">
+          <div class="faq-item reveal">
+            <button class="faq-q">O Mandrill Hub é só mais um sistema de gestão?<span class="icon"></span></button>
+            <div class="faq-a"><p>Não. Além do sistema (comercial, financeiro e produção), o Hub traz método validado, rede de fornecedores certificados e capital pra girar — o ecossistema inteiro que uma produtora precisa pra atender conta grande.</p></div>
+          </div>
+          <div class="faq-item reveal">
+            <button class="faq-q">Preciso ser uma produtora grande pra usar?<span class="icon"></span></button>
+            <div class="faq-a"><p>Pelo contrário. O Hub foi desenhado pra produtora boutique de 1 a 5 pessoas que quer crescer com estrutura, sem inchar a operação.</p></div>
+          </div>
+          <div class="faq-item reveal">
+            <button class="faq-q">Como funciona a certificação?<span class="icon"></span></button>
+            <div class="faq-a"><p>A gente avalia seus processos junto com você e aplica o método Mandrill. Ao concluir, sua produtora ganha o selo que dá segurança pro cliente grande — e prioridade na rede.</p></div>
+          </div>
+          <div class="faq-item reveal">
+            <button class="faq-q">Já uso outras ferramentas. Preciso trocar tudo de uma vez?<span class="icon"></span></button>
+            <div class="faq-a"><p>Não. Você migra no seu ritmo. Dá pra começar por um módulo (comercial, financeiro ou produção) e integrar o resto quando fizer sentido.</p></div>
+          </div>
+          <div class="faq-item reveal">
+            <button class="faq-q">Quanto custa?<span class="icon"></span></button>
+            <div class="faq-a"><p>O plano é dimensionado pelo tamanho da sua operação. No teste grátis a gente mostra o valor certo pra sua realidade — sem surpresa.</p></div>
+          </div>
+          <div class="faq-item reveal">
+            <button class="faq-q">Já dá pra começar agora?<span class="icon"></span></button>
+            <div class="faq-a"><p>Dá. Solicite o teste grátis, a gente libera o acesso e acompanha o seu primeiro projeto dentro do Hub.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <div class="brand-logo"><img src="assets/logo-footer.svg" alt="Mandrill Hub" /></div>
+          <p>O backbone tecnológico da produção audiovisual independente brasileira. Sistema, método e ecossistema numa coisa só.</p>
+        </div>
+        <div class="footer__cols">
+          <div class="footer__col">
+            <h4>Navegar</h4>
+            <a href="#recursos">Recursos</a>
+            <a href="#ecossistema">O sistema</a>
+            <a href="#pra-quem">Pra quem é</a>
+            <a href="#duvidas">Dúvidas</a>
+          </div>
+          <div class="footer__col">
+            <h4>Contato</h4>
+            <a href="mailto:suporte@mandrill.com.br">suporte@mandrill.com.br</a>
+            <a href="#teste">Teste grátis</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2026 Mandrill · Todos os direitos reservados.</span>
+        <span>Feito no Brasil. 🌿</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="hero-bg.js"></script>
 </body>
 </html>
