@@ -30,8 +30,8 @@
     "  opacity: 0; transition: opacity .25s ease; }" +
     ".mh-cur--ring { width: 34px; height: 34px; border: 1.5px solid " + hex(BRAND, 0.55) + ";" +
     "  transition: width .22s ease, height .22s ease, background .22s ease, border-color .22s ease, opacity .25s ease; }" +
-    ".mh-cur--dot { width: 16px; height: 16px; background: #ffffff;" +
-    "  box-shadow: 0 0 14px " + hex("#ffffff", 0.4) + "; }" +
+    ".mh-cur--dot { width: 11px; height: 11px; background: #ffffff;" +
+    "  box-shadow: 0 0 8px " + hex("#ffffff", 0.3) + "; }" +
     /* estado hover em elementos interativos */
     ".mh-cur--ring.is-hover { width: 62px; height: 62px; background: " + hex(BRAND, 0.1) + ";" +
     "  border-color: " + hex(BRAND, 0.9) + "; }" +
@@ -48,8 +48,8 @@
     /* botões: brilho no hover (sem sair do lugar) */
     ".btn { transition: background .25s ease, border-color .25s ease, color .25s ease," +
     "  filter .25s ease, box-shadow .3s ease; }" +
-    ".btn--primary:hover { box-shadow: 0 10px 34px " + hex(BRAND, 0.5) +
-    ", 0 0 0 1px " + hex(BRAND, 0.45) + "; filter: brightness(1.05); }" +
+    ".btn--primary:hover { background: var(--brand); filter: brightness(1.14);" +
+    "  box-shadow: 0 10px 34px " + hex(BRAND, 0.5) + ", 0 0 0 1px " + hex(BRAND, 0.45) + "; }" +
     ".btn--secondary:hover { box-shadow: 0 10px 30px " + hex("#ffffff", 0.14) +
     ", 0 0 0 1px " + hex("#ffffff", 0.4) + "; }" +
     /* sublinhado animado nos links do menu */
@@ -123,8 +123,8 @@
     var speed = Math.min(Math.hypot(vx, vy), 55);
     var t = speed / 55; // 0 (parado) → 1 (rápido)
     var ang = (Math.atan2(vy, vx) * 180) / Math.PI;
-    var sx = 1 + t * 0.7; // estica no sentido do movimento
-    var sy = 1 - t * 0.4; // achata no eixo perpendicular
+    var sx = 1 + t * 0.9; // estica no sentido do movimento
+    var sy = 1 - t * 0.5; // achata no eixo perpendicular
     dot.style.transform =
       "translate(" + mx + "px," + my + "px) translate(-50%,-50%)" +
       " rotate(" + ang + "deg) scale(" + sx.toFixed(3) + "," + sy.toFixed(3) + ")";
