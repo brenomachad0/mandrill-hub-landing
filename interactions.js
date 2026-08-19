@@ -30,11 +30,11 @@
     "  opacity: 0; transition: opacity .25s ease; }" +
     ".mh-cur--ring { width: 34px; height: 34px; border: 1.5px solid " + hex(BRAND, 0.55) + ";" +
     "  transition: width .22s ease, height .22s ease, background .22s ease, border-color .22s ease, opacity .25s ease; }" +
-    ".mh-cur--dot { width: 6px; height: 6px; background: " + BRAND + "; }" +
+    ".mh-cur--dot { width: 12px; height: 12px; background: #ffffff;" +
+    "  box-shadow: 0 0 12px " + hex("#ffffff", 0.35) + "; }" +
     /* estado hover em elementos interativos */
-    ".mh-cur--ring.is-hover { width: 56px; height: 56px; background: " + hex(BRAND, 0.1) + ";" +
+    ".mh-cur--ring.is-hover { width: 62px; height: 62px; background: " + hex(BRAND, 0.1) + ";" +
     "  border-color: " + hex(BRAND, 0.9) + "; }" +
-    ".mh-cur--dot.is-hover { opacity: 0 !important; }" +
     /* clique */
     ".mh-cur--ring.is-down { width: 26px; height: 26px; background: " + hex(BRAND, 0.18) + "; }" +
     /* spotlight nos cards/painéis */
@@ -46,7 +46,15 @@
     ".mh-spot:hover::before { opacity: 1; }" +
     ".mh-spot > * { position: relative; z-index: 1; }" +
     /* botões magnéticos com transição suave ao soltar */
-    ".mh-mag { transition: transform .35s cubic-bezier(.2,.8,.2,1); }";
+    ".mh-mag { transition: transform .35s cubic-bezier(.2,.8,.2,1); }" +
+    /* sublinhado animado nos links do menu */
+    ".nav a { position: relative; }" +
+    ".nav a::after { content: ''; position: absolute; left: 0; bottom: -6px; height: 2px;" +
+    "  width: 100%; background: " + BRAND + "; border-radius: 2px; transform: scaleX(0);" +
+    "  transform-origin: left center; transition: transform .32s cubic-bezier(.2,.8,.2,1); }" +
+    ".nav a:hover::after { transform: scaleX(1); }" +
+    /* tilt 3D nos cards */
+    ".mh-tilt { transition: transform .3s cubic-bezier(.2,.8,.2,1); }";
 
   var styleEl = document.createElement("style");
   styleEl.textContent = css;
@@ -63,6 +71,8 @@
     my = window.innerHeight / 2;
   var rx = mx,
     ry = my; // posição suavizada do anel
+  var pdx = mx,
+    pdy = my; // posição anterior do ponto (p/ calcular velocidade)
   var visible = false;
 
   window.addEventListener(
@@ -70,7 +80,6 @@
     function (e) {
       mx = e.clientX;
       my = e.clientY;
-      dot.style.transform = "translate(" + mx + "px," + my + "px) translate(-50%,-50%)";
       if (!visible) {
         visible = true;
         ring.style.opacity = "1";
@@ -93,11 +102,28 @@
     ring.classList.remove("is-down");
   });
 
-  /* loop de suavização do anel (lerp) */
+  /* loop: anel suave + deformação do ponto pela velocidade */
   (function raf() {
+    // anel segue com atraso (lerp)
     rx += (mx - rx) * 0.18;
     ry += (my - ry) * 0.18;
-    ring.style.transform = "translate(" + rx + "px," + ry + "px) translate(-50%,-50%)";
+    ring.style.transform =
+      "translate(" + rx + "px," + ry + "px) translate(-50%,-50%)";
+
+    // ponto central: posição + deformação líquida no sentido do movimento
+    var vx = mx - pdx,
+      vy = my - pdy;
+    pdx = mx;
+    pdy = my;
+    var speed = Math.min(Math.hypot(vx, vy), 55);
+    var t = speed / 55; // 0 (parado) → 1 (rápido)
+    var ang = (Math.atan2(vy, vx) * 180) / Math.PI;
+    var sx = 1 + t * 0.7; // estica no sentido do movimento
+    var sy = 1 - t * 0.4; // achata no eixo perpendicular
+    dot.style.transform =
+      "translate(" + mx + "px," + my + "px) translate(-50%,-50%)" +
+      " rotate(" + ang + "deg) scale(" + sx.toFixed(3) + "," + sy.toFixed(3) + ")";
+
     requestAnimationFrame(raf);
   })();
 
@@ -141,15 +167,31 @@
   var spots = document.querySelectorAll(".card, .form-card");
   spots.forEach(function (el) {
     el.classList.add("mh-spot");
+    var tiltable = el.classList.contains("card"); // form não inclina (usabilidade)
+    if (tiltable) el.classList.add("mh-tilt");
     el.addEventListener(
       "mousemove",
       function (e) {
         var r = el.getBoundingClientRect();
-        el.style.setProperty("--mx", ((e.clientX - r.left) / r.width) * 100 + "%");
-        el.style.setProperty("--my", ((e.clientY - r.top) / r.height) * 100 + "%");
+        var px = (e.clientX - r.left) / r.width; // 0..1
+        var py = (e.clientY - r.top) / r.height; // 0..1
+        el.style.setProperty("--mx", px * 100 + "%");
+        el.style.setProperty("--my", py * 100 + "%");
+        if (tiltable) {
+          var rotY = (px - 0.5) * 10; // graus
+          var rotX = (0.5 - py) * 10;
+          el.style.transform =
+            "perspective(820px) rotateX(" + rotX.toFixed(2) + "deg) rotateY(" +
+            rotY.toFixed(2) + "deg) translateZ(6px)";
+        }
       },
       { passive: true }
     );
+    if (tiltable) {
+      el.addEventListener("mouseleave", function () {
+        el.style.transform = "";
+      });
+    }
   });
 
   /* ---------- 5. Botões magnéticos ---------- */
