@@ -418,14 +418,29 @@
   <!-- ============ MODAL — TESTE GRÁTIS ============ -->
   <div class="modal" id="testeModal" aria-hidden="true">
     <div class="modal__backdrop" data-close></div>
-    <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="testeModalTitle">
+    <div class="modal__dialog modal__dialog--split" role="dialog" aria-modal="true" aria-labelledby="testeModalTitle">
       <button type="button" class="modal__close" aria-label="Fechar" data-close>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
 
+      <!-- ARTE — lado esquerdo -->
+      <aside class="modal__art" aria-hidden="true">
+        <div class="modal__art-glow"></div>
+        <img class="modal__art-logo" src="assets/logo-main.svg" alt="" />
+        <h4 class="modal__art-title">A gestão que roda<br />produtora de grande conta.</h4>
+        <ul class="modal__art-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>CRM, ERP e produção num sistema só</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Teste grátis, sem cartão</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Onboarding com quem opera de verdade</li>
+        </ul>
+        <img class="modal__art-shot" src="assets/dashboard.png" alt="" loading="lazy" />
+      </aside>
+
+      <!-- FORM — lado direito -->
+      <div class="modal__main">
+
       <!-- painel: formulário -->
       <div class="modal__panel" id="testeModalForm">
-        <img class="modal__logo" src="assets/logo-main.svg" alt="Mandrill Hub" />
         <p class="eyebrow">Teste grátis</p>
         <h3 id="testeModalTitle">Crie seu acesso ao Hub</h3>
         <p class="modal__sub">Leva menos de um minuto. A gente libera seu acesso e te chama no WhatsApp.</p>
@@ -445,11 +460,11 @@
           <div class="field-row">
             <div class="field">
               <label for="email">E-mail *</label>
-              <input type="email" id="email" name="email" placeholder="voce@email.com" required />
+              <input type="text" inputmode="email" autocomplete="email" id="email" name="email" placeholder="voce@email.com" required />
             </div>
             <div class="field">
               <label for="whatsapp">WhatsApp *</label>
-              <input type="tel" id="whatsapp" name="whatsapp" placeholder="(00) 00000-0000" required />
+              <input type="tel" inputmode="numeric" autocomplete="tel" maxlength="16" id="whatsapp" name="whatsapp" placeholder="(00) 00000-0000" required />
             </div>
           </div>
           <div class="field">
@@ -476,6 +491,7 @@
         <p class="modal__sub">Seu teste grátis foi solicitado. A gente te chama no WhatsApp pra liberar o seu acesso ao Hub.</p>
         <button type="button" class="btn btn--primary btn--block" data-close>Fechar</button>
       </div>
+      </div><!-- /modal__main -->
     </div>
   </div>
 

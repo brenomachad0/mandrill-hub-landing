@@ -344,8 +344,70 @@
         msg.style.color = "#f0a68a";
       }
 
+      /* --- máscara de WhatsApp: (00) 00000-0000 --- */
+      const whats = form.whatsapp;
+      function maskPhone(v) {
+        v = v.replace(/\D/g, "").slice(0, 11);
+        if (!v) return "";
+        if (v.length <= 2) return "(" + v;
+        const ddd = v.slice(0, 2);
+        const rest = v.slice(2);
+        if (rest.length <= 4) return "(" + ddd + ") " + rest;
+        if (rest.length <= 8) return "(" + ddd + ") " + rest.slice(0, 4) + "-" + rest.slice(4);
+        return "(" + ddd + ") " + rest.slice(0, 5) + "-" + rest.slice(5);
+      }
+      if (whats) {
+        whats.addEventListener("input", function () {
+          const atEnd = this.selectionStart === this.value.length;
+          this.value = maskPhone(this.value);
+          if (atEnd) this.setSelectionRange(this.value.length, this.value.length);
+        });
+      }
+
+      /* --- validação de e-mail amigável (sem popup nativo) --- */
+      const email = form.email;
+      const emailErr = document.createElement("small");
+      emailErr.className = "field-error";
+      emailErr.style.display = "none";
+      if (email) email.parentNode.appendChild(emailErr);
+      function isEmail(v) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+      }
+      function showEmailErr(text) {
+        emailErr.textContent = text;
+        emailErr.style.display = "block";
+        if (email) email.setAttribute("aria-invalid", "true");
+      }
+      function clearEmailErr() {
+        emailErr.style.display = "none";
+        if (email) email.removeAttribute("aria-invalid");
+      }
+      if (email) {
+        email.addEventListener("input", clearEmailErr);
+        email.addEventListener("blur", function () {
+          const v = email.value.trim();
+          if (v && !isEmail(v)) {
+            showEmailErr("Esse e-mail parece incompleto — confere o @ e o domínio 🙂");
+          }
+        });
+      }
+
       form.addEventListener("submit", function (e) {
         e.preventDefault();
+
+        // e-mail primeiro, com mensagem amigável
+        const ev = email ? email.value.trim() : "";
+        if (email && !ev) {
+          showEmailErr("Preciso do seu e-mail pra te mandar o acesso 🙂");
+          email.focus();
+          return;
+        }
+        if (email && !isEmail(ev)) {
+          showEmailErr("Esse e-mail parece incompleto — confere o @ e o domínio 🙂");
+          email.focus();
+          return;
+        }
+
         if (!form.checkValidity()) {
           form.reportValidity();
           return;

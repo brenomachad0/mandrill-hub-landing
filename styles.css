@@ -1065,3 +1065,84 @@ h1, h2, h3 {
   .modal { padding: 12px; }
   .modal__dialog { padding: 26px 20px; }
 }
+
+/* Erro amigável de campo (e-mail) */
+.field-error { display: block; color: #f0a68a; font-size: 12.5px; margin-top: 6px; }
+.field input[aria-invalid="true"] { border-color: #c8501e; }
+
+/* Modal em duas colunas: arte (esquerda) + formulário (direita) */
+.modal__dialog--split {
+  max-width: 880px;
+  padding: 0;
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+}
+.modal__dialog--split .modal__main {
+  flex: 1 1 54%;
+  min-width: 0;
+  padding: 40px 34px;
+  overflow-y: auto;
+  max-height: calc(100vh - 40px);
+}
+.modal__art {
+  position: relative;
+  flex: 0 0 46%;
+  padding: 40px 34px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(165deg, #241f4d 0%, rgba(20, 21, 32, 0.05) 62%), var(--surface-2);
+  border-right: 1px solid var(--border);
+}
+.modal__art-glow {
+  position: absolute;
+  top: -22%;
+  left: -18%;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(113, 91, 254, 0.45), transparent 65%);
+  pointer-events: none;
+}
+.modal__art-logo { position: relative; height: 26px; width: auto; margin-bottom: 26px; }
+.modal__art-title {
+  position: relative;
+  font-family: var(--font-head);
+  font-size: 21px;
+  line-height: 1.25;
+  color: var(--text-1);
+  margin-bottom: 20px;
+}
+.modal__art-list {
+  position: relative;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0 0 24px;
+}
+.modal__art-list li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 14px;
+  color: var(--text-2);
+}
+.modal__art-list svg { width: 17px; height: 17px; flex: none; margin-top: 2px; color: var(--brand-text); }
+.modal__art-shot {
+  position: relative;
+  margin-top: auto;
+  width: 118%;
+  max-width: none;
+  border-radius: 12px 12px 0 0;
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.6);
+  transform: translateY(14px);
+}
+
+@media (max-width: 720px) {
+  .modal__dialog--split { display: block; max-width: 468px; padding: 0; }
+  .modal__art { display: none; }
+  .modal__dialog--split .modal__main { padding: 30px 24px; max-height: calc(100vh - 24px); }
+}
